@@ -477,9 +477,9 @@ $(function() {
       transition: 'fade2',
       transitionDuration: 2000,
       slides: [
-        { src: "https://dummyimage.com/1600x1200/3d3d3d/7a7a7a" },
-        { src: "https://dummyimage.com/1600x1200/3d3d3d/7a7a7a" },
-        { src: "https://dummyimage.com/1600x1200/3d3d3d/7a7a7a" }
+        { src: "img/custom/yoga-natural-retreat.jpg" },
+        { src: "img/custom/aventura-natural-catarata.jpg" },
+        { src: "img/custom/parrillada-dj-ronny-woods.jpg" }
       ],
       animation: [ 'kenburnsUp', 'kenburnsDown', 'kenburnsLeft', 'kenburnsRight' ]
     });
@@ -497,86 +497,95 @@ $(function() {
   // --------------------------------------------- //
 
   // --------------------------------------------- //
-  // Mailchimp Notify Form Start
+  // n8n Forms Start
   // --------------------------------------------- //
-  $('.notify-form').ajaxChimp({
-    callback: mailchimpCallback,
-    url: 'https://club.us10.list-manage.com/subscribe/post?u=e8d650c0df90e716c22ae4778&amp;id=54a7906900&amp;f_id=00b64ae4f0'
+  var n8nWebhooks = window.AXIO_N8N_WEBHOOKS || {};
+
+  function getFormPayload($form) {
+    var payload = {
+      source_site: 'axio.wstudio3d.com',
+      page_url: window.location.href,
+      submitted_at: new Date().toISOString()
+    };
+
+    $.each($form.serializeArray(), function(_, field) {
+      payload[field.name] = field.value;
+    });
+
+    return payload;
+  }
+
+  function showFormState($scope, $form, successSelector, errorSelector, isSuccess) {
+    var selector = isSuccess ? successSelector : errorSelector;
+
+    $scope.find('.reply-group').removeClass('is-visible');
+    $form.addClass('is-hidden');
+    $scope.find(selector).addClass('is-visible');
+
+    setTimeout(function() {
+      $scope.find(selector).removeClass('is-visible');
+      $form.delay(300).removeClass('is-hidden');
+      if (isSuccess) {
+        $form.trigger('reset');
+      }
+    }, 5000);
+  }
+
+  function postFormToN8n(event, options) {
+    event.preventDefault();
+
+    var $form = $(event.currentTarget);
+    var webhookUrl = n8nWebhooks[options.webhookKey];
+
+    if (!webhookUrl) {
+      console.warn('Missing n8n webhook URL for form:', options.webhookKey);
+      showFormState(options.$scope, $form, options.successSelector, options.errorSelector, false);
+      return false;
+    }
+
+    $.ajax({
+      type: 'POST',
+      url: webhookUrl,
+      data: JSON.stringify(getFormPayload($form)),
+      contentType: 'application/json; charset=utf-8',
+      dataType: 'json'
+    }).done(function() {
+      showFormState(options.$scope, $form, options.successSelector, options.errorSelector, true);
+    }).fail(function() {
+      showFormState(options.$scope, $form, options.successSelector, options.errorSelector, false);
+    });
+
+    return false;
+  }
+
+  $('#notify-form').on('submit', function(event) {
+    return postFormToN8n(event, {
+      webhookKey: 'subscription',
+      $scope: $('.notify'),
+      successSelector: '.subscription-ok',
+      errorSelector: '.subscription-error'
+    });
   });
 
-  function mailchimpCallback(resp) {
-    if(resp.result === 'success') {
-      $('.notify').find('.form').addClass('is-hidden');
-      $('.notify').find('.subscription-ok').addClass('is-visible');
-      setTimeout(function() {
-        // Done Functions
-        $('.notify').find('.subscription-ok').removeClass('is-visible');
-        $('.notify').find('.form').delay(300).removeClass('is-hidden');
-        $('.notify-form').trigger("reset");
-      }, 5000);
-    } else if(resp.result === 'error') {
-      $('.notify').find('.form').addClass('is-hidden');
-      $('.notify').find('.subscription-error').addClass('is-visible');
-      setTimeout(function() {
-        // Done Functions
-        $('.notify').find('.subscription-error').removeClass('is-visible');
-        $('.notify').find('.form').delay(300).removeClass('is-hidden');
-        $('.notify-form').trigger("reset");
-      }, 5000);
-    }
-  };
-  // --------------------------------------------- //
-  // Mailchimp Notify Form End
-  // --------------------------------------------- //
+  $('#stayintouch-form').on('submit', function(event) {
+    return postFormToN8n(event, {
+      webhookKey: 'stayintouch',
+      $scope: $('.stayintouch'),
+      successSelector: '.stayintouch-ok',
+      errorSelector: '.stayintouch-error'
+    });
+  });
 
+  $('#contact-form').on('submit', function(event) {
+    return postFormToN8n(event, {
+      webhookKey: 'contact',
+      $scope: $('.contact'),
+      successSelector: '.contact-ok',
+      errorSelector: '.contact-error'
+    });
+  });
   // --------------------------------------------- //
-  // Stay-in-touch Form Start
-  // --------------------------------------------- //
-  $("#stayintouch-form").submit(function() { //Change
-		var th = $(this);
-		$.ajax({
-			type: "POST",
-			url: "mail.php", //Change
-			data: th.serialize()
-		}).done(function() {
-      $('.stayintouch').find('.form').addClass('is-hidden');
-      $('.stayintouch').find('.reply-group').addClass('is-visible');
-			setTimeout(function() {
-				// Done Functions
-        $('.stayintouch').find('.reply-group').removeClass('is-visible');
-        $('.stayintouch').find('.form').removeClass('is-hidden');
-				th.trigger("reset");
-			}, 5000);
-		});
-		return false;
-	});
-  // --------------------------------------------- //
-  // Stay-in-touch Form End
-  // --------------------------------------------- //
-
-  // --------------------------------------------- //
-  // Contact Form Start
-  // --------------------------------------------- //
-  $("#contact-form").submit(function() { //Change
-		var th = $(this);
-		$.ajax({
-			type: "POST",
-			url: "mail.php", //Change
-			data: th.serialize()
-		}).done(function() {
-      $('.contact').find('.form').addClass('is-hidden');
-      $('.contact').find('.reply-group').addClass('is-visible');
-			setTimeout(function() {
-				// Done Functions
-        $('.contact').find('.reply-group').removeClass('is-visible');
-        $('.contact').find('.form').delay(300).removeClass('is-hidden');
-				th.trigger("reset");
-			}, 5000);
-		});
-		return false;
-	});
-  // --------------------------------------------- //
-  // Contact Form End
+  // n8n Forms End
   // --------------------------------------------- //
 
 });

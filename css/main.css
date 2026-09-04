@@ -38,64 +38,55 @@
 /* Template Backgrounds Start */
 /* ------------------------------------------------*/
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,300;0,400;0,500;0,600;0,700;0,800;1,300;1,400;1,500;1,600;1,700;1,800&display=swap");
-.media-1 {
-  background-image: url("https://dummyimage.com/1600x1200/3d3d3d/7a7a7a");
-}
-
-.media-2 {
-  background-image: url("https://dummyimage.com/1600x1200/3d3d3d/7a7a7a");
+.media-1,
+.media-2,
+.media-mono-01,
+.media-mono-02 {
+  background-image: url("../img/custom/yoga-natural-retreat.jpg");
 }
 
 .media-3 {
-  background-image: url("https://dummyimage.com/1600x1200/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/yoga-natural-retreat.jpg");
 }
 
 .media-4 {
-  background-image: url("https://dummyimage.com/1600x1200/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/aventura-natural-catarata.jpg");
 }
 
 .media-5 {
-  background-image: url("https://dummyimage.com/1600x1200/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/parrillada-dj-ronny-woods.jpg");
 }
 
 .media-6 {
-  background-image: url("https://dummyimage.com/1600x1200/3d3d3d/7a7a7a");
-}
-
-.media-mono-01 {
-  background-image: url("https://dummyimage.com/1600x1200/3d3d3d/7a7a7a");
-}
-
-.media-mono-02 {
-  background-image: url("https://dummyimage.com/1600x1200/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/yoga-natural-retreat.jpg");
 }
 
 .feature-image-1 {
-  background-image: url("https://dummyimage.com/1200x900/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/yoga-natural-retreat.jpg");
 }
 
 .feature-image-2 {
-  background-image: url("https://dummyimage.com/1200x900/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/aventura-natural-catarata.jpg");
 }
 
 .feature-image-3 {
-  background-image: url("https://dummyimage.com/1200x900/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/parrillada-dj-ronny-woods.jpg");
 }
 
 .feature-image-4 {
-  background-image: url("https://dummyimage.com/1200x900/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/parrillada-dj-ronny-woods.jpg");
 }
 
 .feature-image-5 {
-  background-image: url("https://dummyimage.com/1200x900/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/yoga-natural-retreat.jpg");
 }
 
 .feature-image-6 {
-  background-image: url("https://dummyimage.com/1200x900/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/aventura-natural-catarata.jpg");
 }
 
 .blockquote__container {
-  background-image: url("https://dummyimage.com/1400x900/3d3d3d/7a7a7a");
+  background-image: url("../img/custom/parrillada-dj-ronny-woods.jpg");
 }
 
 /* ------------------------------------------------*/
